@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 
-import sys, math
+import sys
 
 debug = False
 
@@ -20,7 +20,7 @@ def gcd(a, b):
 def lcm_fast(a, b):
     gcd_ab = gcd(a, b)
     if debug: print(gcd_ab)
-    return math.floor((a * b) / gcd_ab)
+    return (a * b) // gcd_ab
 
 if __name__ == '__main__':
     input = sys.stdin.read()
@@ -28,10 +28,10 @@ if __name__ == '__main__':
 
     if debug:
         print(a, b)
-        slow_solution = lcm_naive(a, b)
         fast_solution = lcm_fast(a, b)
-        print("slow solution: %s" % slow_solution)
         print("fast solution: %s" % fast_solution)
+        slow_solution = lcm_naive(a, b)
+        print("slow solution: %s" % slow_solution)
         assert(slow_solution == fast_solution)
     else:
         print(lcm_fast(a, b))

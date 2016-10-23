@@ -19,21 +19,25 @@ def get_fibonacci_huge_fast(n, m):
     numbers = [0] * n
     numbers[0] = 1
     numbers[1] = 1
-    # if debug: print("init", numbers)
     for i in range(2,n):
         numbers[i] = numbers[i-1] + numbers[i-2]
-    # if debug: print("filled", numbers)
     return numbers[n-1] % m    
 
+# pisano period cycle begins with [0, 1]; keep adding until we find it
 def pisano_period(n):
-    c=[1,1]
-    a=[]
-    while (c in a) < 1 % n:
-        a += [c]
-        c = [c[1], sum(c) % n]
-    return len(a) or 1
-
-# calculate the remainder of N % sizeOfPisanoPeriod. The remainder will be the index of the PISANO[remainder] array.
+    if (n <= 1): return n
+    numbers = []
+    numbers.append(0)
+    numbers.append(1)
+    keep_adding = True
+    i = 2
+    while(keep_adding):
+        numbers.append((numbers[i-1] + numbers[i-2]) % n)
+        if numbers[i] == 1 and numbers[i-1] == 0:
+            keep_adding = False
+        else:
+            i += 1
+    return len(numbers[:i-1])
 
 def fib_mod(n, m):
     p = pisano_period(m)
@@ -42,27 +46,19 @@ def fib_mod(n, m):
     return get_fibonacci_huge_fast(remainder, m)
     
 if __name__ == '__main__':
-    input = sys.stdin.read();
-    n, m = map(int, input.split())
-
-    # --------------------------------------------------------------------------------
-
+    
     if debug:
-        print("pisano")
-        for i in range(1, 10):
-            print(pisano_period(i)),
-        print
+        expected = [0,1,3,8,6,20,24,16,12,24,60,10,24]
+        for i in range(0, 10):
+            print(i, expected[i], pisano_period(i))
+            assert(expected[i] == pisano_period(i))
 
         assert(fib_mod(1, 239) == 1)
         assert(fib_mod(239, 1000) == 161)
         assert(fib_mod(2816213588, 30524) == 10249)
-
-        slow_solution = get_fibonacci_huge_naive(n, m)
-        fast_solution = fib_mod(n, m)
-        print("slow solution: %s" % slow_solution)
-        print("fast solution: %s" % fast_solution)
-        assert(slow_solution == fast_solution)
+        assert(fib_mod(100, 100000) == get_fibonacci_huge_naive(100, 100000))
 
     else:
+        input = sys.stdin.read();
+        n, m = map(int, input.split())
         print(fib_mod(n, m))
-

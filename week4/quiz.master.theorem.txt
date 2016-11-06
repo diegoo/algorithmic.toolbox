@@ -1,0 +1,33 @@
+def compare(a,b,d):
+    x = math.log(a, b)
+    print("d", d, "log(a, b)", x)
+    if d > x:
+       return 1
+    elif d == x:
+       return 0
+    else:
+       return -1
+
+*
+
+a = 3
+b = 2
+d = 1
+
+=> -1 => O(n**log_2(3)) => O(n**1.5)
+
+*
+
+a = 1
+b = 2
+d = 0
+
+=> 0 => O(log(n))
+
+*
+
+a = 8
+b = 2
+d = 2
+
+=> -1 => O(n**log_b(a)) => O(n**3) => n**3 ya es cota, así que n**4 también

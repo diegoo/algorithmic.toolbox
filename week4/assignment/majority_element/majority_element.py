@@ -3,8 +3,8 @@
 import sys
 from math import floor
 
-test = True
-debug = True
+test = False
+debug = False
 
 def get_majority_element_naive(a):
     n = len(a)
